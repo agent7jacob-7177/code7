@@ -1,5 +1,6 @@
 # 🐍 Code 7 - Development Portfolio
 
+
 Welcome to **Code 7**! This repository serves as a demonstration of development capabilities and GitHub Pages hosting.
 
 ## 🎯 Purpose
