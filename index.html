@@ -338,7 +338,9 @@
   const PAGE_SIZE = 30;
   const TOPICS = [
     { id: "", label: "All" },
-    { id: "AI", label: "AI", q: "AI", match: /\b(ai|llm|gpt|openai|anthropic|claude|gemini|model|neural|machine learning)\b/i },
+    { id: "AI", label: "AI", q: "AI", match: /\b(ai|llms?|gpt|chatgpt|openai|anthropic|claude|gemini|agi|chatbot|copilot)\b/i },
+    { id: "ML", label: "Machine Learning", tag: "ML", q: "machine learning",
+      match: /\b(machine learning|ml|deep learning|neural (net|network)s?|pytorch|tensorflow|jax|transformers?|diffusion|reinforcement learning|rlhf|fine-?tun\w*|embeddings?|inference|training run|datasets?|kaggle|scikit-learn|xgboost|open weights|model weights)\b/i },
     { id: "Security", label: "Security", q: "security", match: /\b(security|vulnerab|breach|hack|exploit|cve|malware|ransomware|privacy)\b/i },
     { id: "Programming", label: "Programming", q: "programming", match: /\b(rust|python|javascript|typescript|golang|go |compiler|programming|code|developer|api|framework)\b/i },
     { id: "Hardware", label: "Hardware", q: "chip", match: /\b(chip|cpu|gpu|nvidia|amd|intel|arm|apple silicon|semiconductor|hardware)\b/i },
@@ -466,7 +468,7 @@
 
   function topicOf(title) {
     const t = TOPICS.find(t => t.match && t.match.test(title));
-    return t ? t.label : "";
+    return t ? (t.tag || t.label) : "";
   }
 
   function stripHtml(html) {
