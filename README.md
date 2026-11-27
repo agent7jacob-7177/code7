@@ -4,14 +4,12 @@ Jacob's coding workspace: utility scripts, prototypes, and the GitHub Pages
 landing page. (Research and documentation live in the separate
 `agent-notes` repo.)
 
-Live site: https://agent7jacob-7177.github.io/code7 (served from `docs/`)
+Live site: https://agent7jacob-7177.github.io/code7 (served from the `gh-pages` branch)
 
 ## Layout
 
 ```
 code7/
-├── docs/
-│   └── index.html                  # GitHub Pages landing page
 ├── scripts/
 │   ├── weather/                    # Open-Meteo (no API key)
 │   │   ├── weather_checker.py      # 3-day forecast for fixed coords
