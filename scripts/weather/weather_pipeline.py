@@ -1,93 +1,38 @@
 # weather_pipeline.py
-import requests
-import json
+"""City name -> coordinates -> 3-day forecast.
+
+Uses known coordinates for names the Open-Meteo geocoder can't resolve
+(e.g. "Hamilton, NJ", a township), otherwise geocodes via get_coordinates.py.
+
+Usage: python3 weather_pipeline.py ["City Name"]
+"""
 import sys
-from datetime import datetime
 
-# --- CONFIGURATION ---
-# We are using a hardcoded fallback coordinate for Hamilton, NJ,
-# because the Open-Meteo Geocoding API failed to resolve the name.
-FALLBACK_LAT = 43.25
-FALLBACK_LON = -79.84
-# --- END CONFIGURATION ---
+from get_coordinates import get_coordinates_by_city
+from weather_checker import display_forecast, get_weather_forecast
 
-# 1. Geocoding function (Simulated/Fallback)
-def get_coordinates_fallback(city_name):
-    """
-    In a real-world scenario, this function would use a robust API
-    (like Nominatim/OpenStreetMaps) to find coords.
-    For this script, we use a fallback based on previous knowledge.
-    """
-    print(f"⚠️ WARNING: Open-Meteo Geocoding API failed for '{city_name}'.")
-    print(f"   Using fallback coordinates: Lat={FALLBACK_LAT}, Lon={FALLBACK_LON}")
-    return FALLBACK_LAT, FALLBACK_LON
+# Hamilton Township, Mercer County, NJ
+KNOWN_COORDS = {
+    "Hamilton, NJ": (40.21, -74.68),
+}
+DEFAULT_CITY = "Hamilton, NJ"
+FORECAST_DAYS = 3
 
-# 2. Weather fetching function (from weather_checker.py logic)
-def get_weather_forecast(lat, lon, days):
-    """
-    Fetches weather forecast data from the Open-Meteo API.
-    """
-    url = "https://api.open-meteo.com/v1/forecast"
-    
-    params = {
-        "latitude": lat,
-        "longitude": lon,
-        "daily": "weathercode,temperature_2m_max,temperature_2m_min,precipitation_probability",
-        "daily_forecast_days": days
-    }
-    
-    print(f"\n📡 Fetching weather data for Lat: {lat}, Lon: {lon}...")
-    
-    try:
-        response = requests.get(url, params=params)
-        response.raise_for_status()
-        data = response.json()
-        return data
-    except requests.exceptions.RequestException as e:
-        print(f"\n❌ Error fetching weather data: {e}")
-        return None
 
-def display_forecast(data):
-    """
-    Parses and prints the weather forecast data in a readable format.
-    """
-    if not data or 'daily' not in data:
-        print("\nCould not retrieve valid forecast data to display.")
-        return
-
-    daily = data['daily']
-    print("\n=============================================")
-    print("🌍 ☁️ WEATHER FORECAST ☁️ 🌍")
-    print("=============================================")
-    print(f"Current Location: Lat {data['latitude']}, Lon {data['longitude']}")
-    print("-" * 50)
-
-    # Display daily forecast
-    print("\n🗓️ Daily Forecast:")
-    print("Day | Max Temp (°C) | Min Temp (°C) | Rain Prob (%)")
-    print("----|---------------|---------------|----------------")
-    
-    for i, date in enumerate(daily['time']):
-        max_temp = daily['temperature_2m_max'][i]
-        min_temp = daily['temperature_2m_min'][i]
-        rain_prob = daily['precipitation_probability'][i]
-        
-        print(f"{date[0:3]} | {max_temp:13.1f} | {min_temp:13.1f} | {int(rain_prob):<12}")
-    
-    print("\n=============================================")
-    print("Weather check complete.")
+def resolve_coordinates(city_name):
+    if city_name in KNOWN_COORDS:
+        lat, lon = KNOWN_COORDS[city_name]
+        print(f"📍 Using known coordinates for '{city_name}': Lat={lat}, Lon={lon}")
+        return lat, lon
+    return get_coordinates_by_city(city_name)
 
 
 if __name__ == "__main__":
-    CITY_NAME = "Hamilton, NJ"
-    FORECAST_DAYS = 3
-    
-    # Step 1: Get Coordinates (using fallback for reliability)
-    lat, lon = get_coordinates_fallback(CITY_NAME)
-    
-    # Step 2: Get Weather Forecast
+    city = sys.argv[1] if len(sys.argv) > 1 else DEFAULT_CITY
+    lat, lon = resolve_coordinates(city)
+    if lat is None or lon is None:
+        sys.exit(1)
+
     weather_data = get_weather_forecast(lat, lon, FORECAST_DAYS)
-    
-    # Step 3: Display Result
     if weather_data:
         display_forecast(weather_data)

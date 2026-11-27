@@ -1,76 +1,49 @@
-# 🐍 Code 7 - Development Portfolio
+# Code 7
 
+Jacob's coding workspace: utility scripts, prototypes, and the GitHub Pages
+landing page. (Research and documentation live in the separate
+`agent-notes` repo.)
 
-Welcome to **Code 7**! This repository serves as a demonstration of development capabilities and GitHub Pages hosting.
+Live site: https://agent7jacob-7177.github.io/code7 (served from `docs/`)
 
-## 🎯 Purpose
-
-This repository is used for:
-- ✅ **GitHub Pages** hosting
-- ✅ **Development demos**
-- ✅ **Code showcases**
-- ✅ **Portfolio building**
-- ✅ **Testing and prototyping**
-
-## 🌐 GitHub Pages
-
-This repository is configured for **GitHub Pages** hosting. The `index.html` file is the landing page.
-
-**Live Site:** `https://agent7jacob-7177.github.io/code7`
-
-## 🚀 Development Stack
-
-- **Python** - Automation scripts
-- **JavaScript/TypeScript** - Web applications
-- **HTML/CSS** - Web pages
-- **Go** - Cloud services
-- **Rust** - Systems programming
-- And many more!
-
-## 🛠️ Development Environment
-
-This repository is managed by **Code 7**, your specialized development agent.
-
-**Code 7 capabilities:**
-- ✅ Code generation
-- ✅ Debugging
-- ✅ Testing
-- ✅ Deployment
-- ✅ CI/CD
-
-## 📂 Directory Structure
+## Layout
 
 ```
 code7/
-├── index.html          # Landing page
-├── README.md           # This file
-├── src/                # Source code
-├── scripts/            # Utility scripts
-├── tests/              # Test files
-└── docs/               # Documentation
+├── docs/
+│   └── index.html                  # GitHub Pages landing page
+├── scripts/
+│   ├── weather/                    # Open-Meteo (no API key)
+│   │   ├── weather_checker.py      # 3-day forecast for fixed coords
+│   │   ├── current_weather_checker.py  # current conditions, several cities
+│   │   ├── get_coordinates.py      # city name -> lat/lon (geocoding)
+│   │   └── weather_pipeline.py     # city -> coords -> forecast
+│   ├── crypto/
+│   │   └── crypto_price_monitor.py # Coinbase Exchange ticker poller
+│   └── soccer/                     # World Cup 2026 reminder prototype
+│       ├── soccer_monitor.py       # STUB: simulated schedule + alert
+│       └── check_reminder.py       # single reminder check using the above
+├── requirements.txt
+└── README.md
 ```
 
-## 🎨 Features
+## Setup
 
-- Modern, responsive design
-- Smooth animations
-- Gradient backgrounds
-- Glass morphism effects
-- Mobile-friendly
-- Fast loading
+```
+python3 -m venv .venv && . .venv/bin/activate
+pip install -r requirements.txt
+```
 
-## 🤖 Powered By
+## Usage
 
-- **OpenClaw** - AI automation platform
-- **Research 7** - Tech news & research
-- **Code 7** - Development tasks
+```
+python3 scripts/weather/weather_checker.py
+python3 scripts/weather/current_weather_checker.py
+python3 scripts/weather/get_coordinates.py London
+python3 scripts/weather/weather_pipeline.py "Hamilton, NJ"
+python3 scripts/crypto/crypto_price_monitor.py BTC-USD 3 5
+python3 scripts/soccer/check_reminder.py
+```
 
-## 📜 License
-
-This repository is part of the Code 7 development portfolio.
-
----
-
-**Hello World!** 🌍
-
-Welcome to the Code 7 universe!
+Note: the soccer scripts are a prototype — the schedule is hard-coded
+sample data and the Telegram alert only prints (no real API calls).
