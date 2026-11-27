@@ -183,6 +183,85 @@
     .grid { grid-template-columns: 1fr; }
     .btn .label { display: none; }
   }
+  .card { cursor: pointer; }
+  .card:focus-within { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .card h2 a:focus { outline: none; }
+
+  /* ---- Reader view */
+  body.reading { overflow: hidden; }
+  .reader:focus { outline: none; }
+  .reader {
+    position: fixed; inset: 0; z-index: 50;
+    background: var(--bg); overflow-y: auto; overscroll-behavior: contain;
+  }
+  .reader-bar {
+    position: sticky; top: 0; z-index: 2;
+    background: color-mix(in srgb, var(--bg) 90%, transparent);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--border);
+  }
+  .reader-bar .inner { max-width: 760px; margin: 0 auto; padding: 10px 16px; display: flex; align-items: center; gap: 10px; }
+  .reader-bar .domain { color: var(--muted); font-size: .85rem; flex: 1; min-width: 0; text-align: center; }
+  .progress { position: absolute; left: 0; bottom: -1px; height: 2px; width: 0; background: var(--accent); }
+  .btn.ghost { border-color: transparent; background: transparent; }
+  .btn.ghost:hover { background: var(--surface-2); border-color: transparent; }
+  a.btn { text-decoration: none; }
+
+  .reader-body { max-width: 760px; margin: 0 auto; padding: 28px 16px 64px; }
+  .reader h1.title { font-size: clamp(1.5rem, 4vw, 2.1rem); line-height: 1.2; letter-spacing: -.01em; margin: 10px 0 14px; }
+  .reader .byline { display: flex; flex-wrap: wrap; gap: 6px 14px; color: var(--muted); font-size: .85rem; padding-bottom: 20px; border-bottom: 1px solid var(--border); }
+  .reader .byline span { display: inline-flex; align-items: center; gap: 4px; }
+  .reader .note {
+    margin: 20px 0; padding: 14px 16px; border-radius: 12px;
+    background: var(--surface-2); color: var(--muted); font-size: .9rem;
+  }
+
+  .prose { font-size: 1.06rem; line-height: 1.75; margin-top: 24px; overflow-wrap: break-word; }
+  .prose > * + * { margin-top: 1.05em; }
+  .prose h1, .prose h2, .prose h3, .prose h4 { line-height: 1.3; margin-top: 1.7em; }
+  .prose h1 { font-size: 1.5rem; } .prose h2 { font-size: 1.3rem; } .prose h3 { font-size: 1.12rem; } .prose h4 { font-size: 1rem; }
+  .prose a { color: var(--accent); text-decoration-thickness: 1px; text-underline-offset: 2px; }
+  .prose img, .prose video { max-width: 100%; height: auto; border-radius: 10px; display: block; margin: 1.3em auto; }
+  .prose ul, .prose ol { padding-left: 1.4em; }
+  .prose li + li { margin-top: .35em; }
+  .prose blockquote { border-left: 3px solid var(--accent); padding: 2px 0 2px 16px; color: var(--muted); }
+  .prose code { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: .88em; background: var(--surface-2); padding: .12em .35em; border-radius: 5px; }
+  .prose pre { background: var(--surface-2); border: 1px solid var(--border); border-radius: 10px; padding: 14px 16px; overflow-x: auto; font-size: .88rem; line-height: 1.55; }
+  .prose pre code { background: none; padding: 0; font-size: inherit; }
+  .prose table { display: block; overflow-x: auto; border-collapse: collapse; font-size: .92rem; }
+  .prose th, .prose td { border: 1px solid var(--border); padding: 6px 10px; text-align: left; }
+  .prose hr { border: 0; border-top: 1px solid var(--border); margin: 2em 0; }
+
+  .skel-lines { margin-top: 28px; display: grid; gap: 12px; }
+  .skel-lines .line { height: 14px; border-radius: 7px; background: var(--surface-2); animation: pulse 1.2s ease-in-out infinite; }
+
+  .continue {
+    margin-top: 36px; padding: 20px; border-radius: 14px;
+    background: var(--surface); border: 1px solid var(--border);
+    display: flex; flex-wrap: wrap; align-items: center; gap: 12px;
+  }
+  .continue p { flex: 1 1 220px; color: var(--muted); font-size: .9rem; }
+  .continue .btn.primary { background: var(--accent); border-color: var(--accent); color: #fff; font-weight: 600; }
+
+  .discussion { margin-top: 40px; }
+  .discussion h2 { font-size: 1.15rem; margin-bottom: 4px; }
+  .discussion .sub { color: var(--muted); font-size: .85rem; margin-bottom: 14px; }
+  .comment { padding: 12px 0 0; }
+  .comment + .comment { border-top: 1px solid var(--border); margin-top: 12px; }
+  .comment .who { font-size: .8rem; color: var(--muted); margin-bottom: 4px; }
+  .comment .who b { color: var(--text); font-weight: 600; }
+  .comment .text { font-size: .95rem; line-height: 1.6; overflow-wrap: anywhere; }
+  .comment .text p + p { margin-top: .6em; }
+  .comment .text a { color: var(--accent); }
+  .comment .text pre { white-space: pre-wrap; font-size: .85rem; background: var(--surface-2); padding: 8px 10px; border-radius: 8px; margin-top: .6em; }
+  .replies { margin: 10px 0 0 4px; padding-left: 14px; border-left: 2px solid var(--border); }
+  .replies .comment + .comment { border-top: 0; margin-top: 4px; }
+  .linkish { background: none; border: 0; color: var(--accent); font: inherit; font-size: .85rem; cursor: pointer; padding: 6px 0 0; }
+
+  @media (max-width: 700px) {
+    .prose { font-size: 1.02rem; }
+    .reader-bar .domain { visibility: hidden; }
+  }
   @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after { animation: none !important; transition: none !important; }
   }
@@ -229,9 +308,30 @@
   <div class="wrap">
     Headlines from <a href="https://news.ycombinator.com/" rel="noopener">Hacker News</a> via the
     <a href="https://hn.algolia.com/api" rel="noopener">Algolia HN API</a>, fetched live in your browser.
+    Article text is extracted with <a href="https://jina.ai/reader/" rel="noopener">Jina Reader</a>.
   </div>
 </footer>
 
+<div class="reader" id="reader" tabindex="-1" role="dialog" aria-modal="true" aria-labelledby="r-title" hidden>
+  <div class="reader-bar">
+    <div class="inner">
+      <button class="btn ghost" id="r-back" type="button">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>
+        <span>Back</span>
+      </button>
+      <div class="domain" id="r-domain"></div>
+      <a class="btn" id="r-open" target="_blank" rel="noopener noreferrer" aria-label="Open original article">
+        <span class="label">Original</span>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg>
+      </a>
+    </div>
+    <div class="progress" id="r-progress"></div>
+  </div>
+  <article class="reader-body" id="r-body"></article>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/marked/12.0.2/marked.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.1.6/purify.min.js"></script>
 <script>
 (() => {
   const API = "https://hn.algolia.com/api/v1/";
@@ -387,8 +487,7 @@
   };
 
   function card(h, featured) {
-    const hnUrl = `https://news.ycombinator.com/item?id=${encodeURIComponent(h.objectID)}`;
-    const url = safeUrl(h.url) || hnUrl;
+    byId.set(String(h.objectID), h);
     const domain = domainOf(h.url) || "news.ycombinator.com";
     const topic = topicOf(h.title);
     const excerpt = stripHtml(h.story_text);
@@ -397,17 +496,29 @@
     const fav = el("img", { class: "favicon", alt: "", loading: "lazy", src: `https://icons.duckduckgo.com/ip3/${domain}.ico` });
     fav.onerror = () => fav.remove();
 
-    return el("article", { class: "card" + (featured ? " featured" : "") },
+    const node = el("article", { class: "card" + (featured ? " featured" : "") },
       el("div", { class: "meta-top" }, fav, el("span", { class: "domain", text: domain }), topic && el("span", { class: "tag", text: topic })),
-      el("h2", {}, el("a", { href: url, target: "_blank", rel: "noopener noreferrer", text: h.title })),
+      el("h2", {}, el("a", { href: `#story/${encodeURIComponent(h.objectID)}`, text: h.title })),
       excerpt && el("p", { class: "excerpt", text: excerpt }),
       el("div", { class: "meta" },
         el("span", { class: points >= 300 ? "hot" : "", title: "Points" }, icon(ICONS.up), String(points)),
         el("span", { title: new Date(h.created_at_i * 1000).toLocaleString() }, icon(ICONS.clock), timeAgo(h.created_at_i)),
-        el("a", { class: "discuss", href: hnUrl, target: "_blank", rel: "noopener noreferrer", title: "Discussion on Hacker News" },
-          icon(ICONS.chat), `${h.num_comments || 0} comments`)
+        el("span", { class: "discuss", title: "Comments" }, icon(ICONS.chat), `${h.num_comments || 0} comments`)
       )
     );
+    const titleLink = node.querySelector("h2 a");
+    titleLink.addEventListener("click", (e) => {
+      if (e.metaKey || e.ctrlKey || e.shiftKey || e.button !== 0) return;  // allow open-in-new-tab
+      e.preventDefault();
+      openStory(h.objectID);
+    });
+    // Whole card opens the reader (the title link handles keyboard + middle-click)
+    node.addEventListener("click", (e) => {
+      if (e.target.closest("a")) return;
+      if (window.getSelection && String(window.getSelection())) return; // let people select text
+      openStory(h.objectID);
+    });
+    return node;
   }
 
   function render() {
@@ -446,6 +557,282 @@
     moreBtn.hidden = true;
   }
 
+  // =====================================================================
+  // Reader view: article text (via Jina Reader) + Hacker News discussion
+  // =====================================================================
+  const READER = "https://r.jina.ai/";
+  const byId = new Map();          // objectID -> hit, filled as cards render
+  const articleCache = new Map();  // url -> { md }
+  const reader = $("reader"), rBody = $("r-body"), rOpen = $("r-open"), rDomain = $("r-domain"), rProgress = $("r-progress");
+  let readerReq = 0, openedFromList = false, lastFocus = null;
+
+  function openStory(id) { openedFromList = true; location.hash = `story/${id}`; }
+
+  function closeReader() {
+    if (openedFromList) { history.back(); return; }   // pops our hash entry -> route() hides
+    history.replaceState(null, "", location.pathname + location.search);
+    route();
+  }
+
+  function route() {
+    const m = location.hash.match(/^#story\/(\d+)$/);
+    if (m) showReader(m[1]); else hideReader();
+  }
+
+  function hideReader() {
+    openedFromList = false;
+    if (reader.hidden) return;
+    readerReq++;
+    reader.hidden = true;
+    document.body.classList.remove("reading");
+    rBody.replaceChildren();
+    if (lastFocus && document.contains(lastFocus)) lastFocus.focus({ preventScroll: true });
+  }
+
+  const hnLink = (id) => `https://news.ycombinator.com/item?id=${encodeURIComponent(id)}`;
+  const countDesc = (c) => (c.children || []).reduce((n, k) => n + (k.text ? 1 : 0) + countDesc(k), 0);
+  const itemToHit = (it) => ({
+    objectID: String(it.id), title: it.title || "(untitled)", url: it.url, author: it.author,
+    points: it.points, created_at_i: it.created_at_i, story_text: it.text, num_comments: countDesc(it),
+  });
+
+  async function showReader(id) {
+    const req = ++readerReq;
+    if (reader.hidden) lastFocus = document.activeElement;
+    reader.hidden = false;
+    document.body.classList.add("reading");
+    reader.scrollTop = 0;
+    rProgress.style.width = "0";
+
+    const itemP = fetch(`${API}items/${encodeURIComponent(id)}`)
+      .then(r => r.ok ? r.json() : null).catch(() => null);
+
+    let story = byId.get(id);
+    if (!story) {
+      renderShell({ objectID: id, title: "Loading…" });
+      reader.focus({ preventScroll: true });
+      const item = await itemP;
+      if (req !== readerReq) return;
+      if (!item) { renderReaderError(id); return; }
+      story = itemToHit(item);
+    }
+    renderShell(story);
+    reader.focus({ preventScroll: true });
+
+    itemP.then(item => { if (req === readerReq) renderComments(story, item); });
+
+    const content = $("r-content");
+    const url = safeUrl(story.url);
+    const parts = [];
+
+    // Self posts (Ask HN / Show HN text) come with their own text
+    if (story.story_text) {
+      const box = el("div", { class: "prose" });
+      fillHtml(box, story.story_text, null);
+      parts.push(box);
+    }
+
+    if (!url) { content.replaceChildren(...parts); updateReadingTime(); return; }
+
+    try {
+      const art = await getArticle(url);
+      if (req !== readerReq) return;
+      const box = el("div", { class: "prose" });
+      const html = mdToHtml(art.md);
+      if (html != null) fillHtml(box, html, url); else fillPlain(box, art.md);
+      tidyArticle(box, story.title);
+      const words = box.textContent.trim().split(/\s+/).length;
+      if (words < 80) {
+        parts.push(el("p", { class: "note", text: "Only a short preview could be extracted from this page. It may be paywalled, need JavaScript, or be mostly images/video. Use the button below to read it on the original site." }));
+      }
+      parts.push(box);
+    } catch (err) {
+      if (req !== readerReq) return;
+      parts.push(el("p", { class: "note", text: "Couldn't fetch the article text right now (the site may block readers, or the reader service is busy). You can still read it on the original site below." }));
+    }
+    content.replaceChildren(...parts);
+    updateReadingTime();
+  }
+
+  function renderShell(h) {
+    const url = safeUrl(h.url);
+    const domain = domainOf(h.url) || "news.ycombinator.com";
+    const topic = h.title ? topicOf(h.title) : "";
+    rDomain.textContent = domain;
+    rOpen.href = url || hnLink(h.objectID);
+
+    const byline = el("div", { class: "byline" });
+    if (h.points != null) byline.append(el("span", {}, icon(ICONS.up), `${h.points} points`));
+    if (h.author) byline.append(el("span", { text: `by ${h.author}` }));
+    if (h.created_at_i) byline.append(el("span", { title: new Date(h.created_at_i * 1000).toLocaleString() }, icon(ICONS.clock), timeAgo(h.created_at_i)));
+    byline.append(el("span", { id: "r-rt" }));
+    if (h.num_comments != null) byline.append(el("span", {}, icon(ICONS.chat), `${h.num_comments} comments`));
+
+    const skel = el("div", { class: "skel-lines", id: "r-content", "aria-busy": "true" },
+      ...[96, 100, 88, 100, 72, 0, 100, 94, 100, 60].map(w => w ? el("div", { class: "line", style: `width:${w}%` }) : el("div", { style: "height:8px" })));
+
+    const cont = el("div", { class: "continue" },
+      el("p", { text: url
+        ? `This is a reader copy of the article. Images, embeds, or paywalled parts may be missing.`
+        : `This post lives on Hacker News.` }),
+      url && el("a", { class: "btn primary", href: url, target: "_blank", rel: "noopener noreferrer" }, `Continue on ${domain} ↗`),
+      el("a", { class: "btn", href: hnLink(h.objectID), target: "_blank", rel: "noopener noreferrer" }, "Discuss on Hacker News ↗"));
+
+    rBody.replaceChildren(
+      el("div", { class: "meta-top" }, el("span", { class: "domain", text: domain }), topic && el("span", { class: "tag", text: topic })),
+      el("h1", { class: "title", id: "r-title", text: h.title || "" }),
+      byline,
+      skel,
+      cont,
+      el("section", { class: "discussion", id: "r-comments" },
+        el("h2", { text: "Discussion" }), el("p", { class: "sub", text: "Loading comments…" })));
+  }
+
+  function renderReaderError(id) {
+    rDomain.textContent = "";
+    rOpen.href = hnLink(id);
+    rBody.replaceChildren(
+      el("h1", { class: "title", id: "r-title", text: "Couldn't load this story" }),
+      el("p", { class: "note", text: "The news service didn't respond. Check your connection and try again." }),
+      el("div", { class: "continue" },
+        el("a", { class: "btn", href: hnLink(id), target: "_blank", rel: "noopener noreferrer" }, "Open on Hacker News ↗")));
+  }
+
+  function updateReadingTime() {
+    const c = $("r-content"), rt = $("r-rt");
+    if (!c || !rt) return;
+    c.removeAttribute("aria-busy"); c.className = "";
+    const words = c.textContent.trim().split(/\s+/).filter(Boolean).length;
+    rt.textContent = words > 60 ? `${Math.max(1, Math.round(words / 230))} min read` : "";
+  }
+
+  async function getArticle(url) {
+    if (articleCache.has(url)) return articleCache.get(url);
+    const ctrl = new AbortController();
+    const timer = setTimeout(() => ctrl.abort(), 30000);
+    try {
+      const res = await fetch(READER + url, { signal: ctrl.signal });
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      const text = await res.text();
+      const marker = "Markdown Content:";
+      const i = text.indexOf(marker);
+      const md = (i >= 0 ? text.slice(i + marker.length) : text).trim();
+      if (!md) throw new Error("empty");
+      const art = { md };
+      articleCache.set(url, art);
+      return art;
+    } finally {
+      clearTimeout(timer);
+    }
+  }
+
+  const PURIFY = { FORBID_TAGS: ["style", "form", "input", "button", "textarea", "select", "iframe", "object", "embed"], FORBID_ATTR: ["style", "class", "id"] };
+
+  function mdToHtml(md) {
+    if (!window.marked || !window.DOMPurify) return null;
+    try { return marked.parse(md, { gfm: true }); } catch { return null; }
+  }
+
+  // Sanitize + insert HTML, then make links/images safe for the reader
+  function fillHtml(box, html, baseUrl) {
+    if (!window.DOMPurify) { fillPlain(box, stripHtml(html)); return; }
+    box.innerHTML = DOMPurify.sanitize(html, PURIFY);
+    box.querySelectorAll("a").forEach(a => {
+      const raw = a.getAttribute("href") || "";
+      let abs = null;
+      if (raw && !raw.startsWith("#")) { try { abs = safeUrl(new URL(raw, baseUrl || location.href).href); } catch {} }
+      if (!abs) { a.replaceWith(...a.childNodes); return; }   // in-page anchors would hijack our hash router
+      a.href = abs; a.target = "_blank"; a.rel = "noopener noreferrer";
+    });
+    box.querySelectorAll("img").forEach(img => {
+      const raw = img.getAttribute("src") || "";
+      let abs = null;
+      try { abs = safeUrl(new URL(raw, baseUrl || location.href).href); } catch {}
+      if (!abs) { img.remove(); return; }
+      img.src = abs; img.loading = "lazy"; img.decoding = "async"; img.referrerPolicy = "no-referrer";
+      img.removeAttribute("width"); img.removeAttribute("height");
+      img.onerror = () => img.remove();
+    });
+  }
+
+  function fillPlain(box, text) {
+    box.replaceChildren(...text.split(/\n{2,}/).map(p => p.trim()).filter(Boolean).map(p => el("p", { text: p })));
+  }
+
+  // Drop a leading duplicate of the headline and empty leftovers
+  function tidyArticle(box, title) {
+    const norm = (s) => (s || "").toLowerCase().replace(/[^a-z0-9]+/g, " ").trim();
+    const first = box.querySelector("h1, h2");
+    if (first && norm(first.textContent) && norm(title).includes(norm(first.textContent)) && first === box.firstElementChild) first.remove();
+    box.querySelectorAll("p, li").forEach(n => { if (!n.textContent.trim() && !n.querySelector("img")) n.remove(); });
+  }
+
+  // ---- Comments
+  const COMMENT_PAGE = 12;
+
+  function renderComments(story, item) {
+    const box = $("r-comments");
+    if (!box) return;
+    const head = el("h2", { text: "Discussion" });
+    if (!item) {
+      box.replaceChildren(head, el("p", { class: "sub" }, "Couldn't load comments. ",
+        el("a", { href: hnLink(story.objectID), target: "_blank", rel: "noopener noreferrer", text: "Open them on Hacker News ↗" })));
+      return;
+    }
+    const top = (item.children || []).filter(c => c.text || (c.children || []).length)
+      .sort((a, b) => countDesc(b) - countDesc(a));
+    const total = countDesc(item);
+    if (!total) { box.replaceChildren(head, el("p", { class: "sub", text: "No comments yet." })); return; }
+
+    const list = el("div");
+    let shown = 0;
+    const more = el("button", { class: "linkish", type: "button" });
+    const showMore = () => {
+      top.slice(shown, shown + COMMENT_PAGE).forEach(c => list.append(commentNode(c, 0)));
+      shown += COMMENT_PAGE;
+      more.hidden = shown >= top.length;
+      more.textContent = `Show more comments (${top.length - shown} more threads)`;
+    };
+    more.onclick = showMore;
+    box.replaceChildren(head, el("p", { class: "sub", text: `${total} comments from Hacker News · most active threads first` }), list, more);
+    showMore();
+  }
+
+  function commentNode(c, depth) {
+    const text = el("div", { class: "text" });
+    if (c.text) fillHtml(text, c.text, "https://news.ycombinator.com/");
+    else text.append(el("em", { text: "[deleted]" }));
+    const node = el("div", { class: "comment" },
+      el("div", { class: "who" }, el("b", { text: c.author || "[deleted]" }), c.created_at_i ? ` · ${timeAgo(c.created_at_i)}` : ""),
+      text);
+
+    const kids = (c.children || []).filter(k => k.text || (k.children || []).length)
+      .sort((a, b) => countDesc(b) - countDesc(a));
+    if (!kids.length) return node;
+
+    const replies = el("div", { class: "replies" });
+    const inline = depth < 1 ? 3 : 0;  // show a few direct replies, collapse deeper threads
+    kids.slice(0, inline).forEach(k => replies.append(commentNode(k, depth + 1)));
+    const rest = kids.slice(inline);
+    if (rest.length) {
+      const n = rest.reduce((s, k) => s + 1 + countDesc(k), 0);
+      const btn = el("button", { class: "linkish", type: "button", text: `Show ${n} ${n === 1 ? "reply" : "replies"}` });
+      btn.onclick = () => { btn.replaceWith(...rest.map(k => commentNode(k, depth + 1))); };
+      replies.append(btn);
+    }
+    node.append(replies);
+    return node;
+  }
+
+  // ---- Reader wiring
+  $("r-back").onclick = closeReader;
+  document.addEventListener("keydown", (e) => { if (e.key === "Escape" && !reader.hidden) closeReader(); });
+  reader.addEventListener("scroll", () => {
+    const max = reader.scrollHeight - reader.clientHeight;
+    rProgress.style.width = max > 0 ? `${Math.min(100, (reader.scrollTop / max) * 100)}%` : "0";
+  }, { passive: true });
+  window.addEventListener("hashchange", route);
+
   // Refresh when the tab comes back into view after 10+ minutes
   let lastLoad = Date.now();
   document.addEventListener("visibilitychange", () => {
@@ -453,6 +840,7 @@
   });
 
   load();
+  route();   // open a story directly when the page is loaded with #story/<id>
 })();
 </script>
 </body>
