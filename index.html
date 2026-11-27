@@ -1,114 +1,459 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hello World - Code 7</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            color: white;
-            padding: 20px;
-        }
-        
-        .container {
-            text-align: center;
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
-            padding: 60px 40px;
-            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
-            border: 1px solid rgba(255, 255, 255, 0.18);
-            max-width: 800px;
-        }
-        
-        .avatar {
-            width: 150px;
-            height: 150px;
-            border-radius: 50%;
-            background: white;
-            margin: 0 auto 30px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 80px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-        }
-        
-        h1 {
-            font-size: 48px;
-            margin-bottom: 20px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
-        }
-        
-        p {
-            font-size: 24px;
-            line-height: 1.6;
-            margin-bottom: 30px;
-            opacity: 0.95;
-        }
-        
-        .subtitle {
-            font-size: 18px;
-            margin-top: 30px;
-            padding-top: 30px;
-            border-top: 1px solid rgba(255,255,255,0.3);
-            opacity: 0.8;
-        }
-        
-        .badges {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            margin-top: 20px;
-            flex-wrap: wrap;
-        }
-        
-        .badge {
-            background: rgba(255,255,255,0.2);
-            padding: 8px 20px;
-            border-radius: 20px;
-            font-size: 14px;
-            border: 1px solid rgba(255,255,255,0.3);
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tech Updates - Code 7</title>
+<meta name="description" content="Latest technology news, refreshed live from Hacker News.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%234f46e5'/><path d='M9 11h14M9 16h14M9 21h9' stroke='white' stroke-width='2.5' stroke-linecap='round'/></svg>">
+<style>
+  :root {
+    --bg: #f6f7f9;
+    --surface: #ffffff;
+    --surface-2: #eef0f4;
+    --border: #e2e5eb;
+    --text: #14171f;
+    --muted: #5b6372;
+    --accent: #4f46e5;
+    --accent-soft: #eef0ff;
+    --hot: #c2410c;
+    --shadow: 0 1px 2px rgba(16,24,40,.05), 0 1px 3px rgba(16,24,40,.06);
+    --shadow-hover: 0 4px 12px rgba(16,24,40,.10);
+    color-scheme: light;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0e1117;
+      --surface: #161b24;
+      --surface-2: #1e2430;
+      --border: #2a3140;
+      --text: #e7eaf0;
+      --muted: #9099aa;
+      --accent: #8b85ff;
+      --accent-soft: #23234a;
+      --hot: #fb923c;
+      --shadow: none;
+      --shadow-hover: 0 4px 16px rgba(0,0,0,.4);
+      color-scheme: dark;
+    }
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  [hidden] { display: none !important; }
+
+  body {
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .wrap { max-width: 1120px; margin: 0 auto; padding: 0 16px; }
+
+  header {
+    position: sticky; top: 0; z-index: 10;
+    background: color-mix(in srgb, var(--bg) 88%, transparent);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--border);
+  }
+  .bar {
+    display: flex; align-items: center; gap: 12px;
+    padding: 14px 0;
+  }
+  .brand { display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 1.1rem; }
+  .logo {
+    width: 30px; height: 30px; border-radius: 8px; background: var(--accent);
+    display: grid; place-items: center; flex: none;
+  }
+  .brand small { font-weight: 500; color: var(--muted); font-size: .85rem; }
+  .spacer { flex: 1; }
+
+  .search {
+    display: flex; align-items: center; gap: 8px;
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 10px; padding: 0 10px; height: 38px;
+    width: min(280px, 100%);
+  }
+  .search:focus-within { border-color: var(--accent); }
+  .search input {
+    border: 0; outline: 0; background: transparent; color: var(--text);
+    font: inherit; font-size: .9rem; width: 100%;
+  }
+  .search svg { color: var(--muted); flex: none; }
+
+  .btn {
+    display: inline-flex; align-items: center; gap: 6px;
+    height: 38px; padding: 0 12px; border-radius: 10px;
+    border: 1px solid var(--border); background: var(--surface); color: var(--text);
+    font: inherit; font-size: .9rem; cursor: pointer;
+  }
+  .btn:hover { border-color: var(--accent); }
+  .btn.spin svg { animation: spin .8s linear infinite; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  .controls {
+    display: flex; flex-wrap: wrap; align-items: center; gap: 8px;
+    padding: 0 0 14px;
+  }
+  .tabs { display: flex; background: var(--surface-2); border-radius: 10px; padding: 3px; }
+  .tab {
+    border: 0; background: transparent; color: var(--muted);
+    font: inherit; font-size: .875rem; font-weight: 600;
+    padding: 6px 12px; border-radius: 8px; cursor: pointer;
+  }
+  .tab[aria-selected="true"] { background: var(--surface); color: var(--text); box-shadow: var(--shadow); }
+  .chips { display: flex; gap: 6px; overflow-x: auto; scrollbar-width: none; }
+  .chips::-webkit-scrollbar { display: none; }
+  .chip {
+    border: 1px solid var(--border); background: transparent; color: var(--muted);
+    font: inherit; font-size: .8rem; font-weight: 500;
+    padding: 5px 11px; border-radius: 999px; cursor: pointer; white-space: nowrap;
+  }
+  .chip:hover { color: var(--text); }
+  .chip[aria-pressed="true"] { background: var(--accent-soft); border-color: var(--accent); color: var(--accent); }
+
+  main.wrap { padding-top: 20px; padding-bottom: 48px; }
+  .status { color: var(--muted); font-size: .85rem; margin-bottom: 16px; min-height: 1.3em; }
+
+  .grid {
+    display: grid; gap: 16px;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  }
+
+  .card {
+    display: flex; flex-direction: column; gap: 10px;
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 14px; padding: 18px;
+    box-shadow: var(--shadow);
+    transition: transform .15s ease, box-shadow .15s ease, border-color .15s ease;
+    min-width: 0;
+  }
+  .card:hover { transform: translateY(-2px); box-shadow: var(--shadow-hover); border-color: color-mix(in srgb, var(--accent) 40%, var(--border)); }
+  .card.featured { grid-column: span 2; }
+  .card.featured h2 { font-size: 1.3rem; }
+
+  .meta-top { display: flex; align-items: center; gap: 8px; font-size: .78rem; color: var(--muted); min-width: 0; }
+  .favicon { width: 16px; height: 16px; border-radius: 4px; flex: none; background: var(--surface-2); }
+  .domain { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .tag {
+    margin-left: auto; flex: none;
+    font-size: .7rem; font-weight: 700; letter-spacing: .03em; text-transform: uppercase;
+    color: var(--accent); background: var(--accent-soft);
+    padding: 2px 8px; border-radius: 999px;
+  }
+
+  .card h2 { font-size: 1.02rem; line-height: 1.35; font-weight: 650; }
+  .card h2 a { color: inherit; text-decoration: none; }
+  .card h2 a:hover { color: var(--accent); }
+  .card h2 a::after { content: ""; }
+  .excerpt { color: var(--muted); font-size: .88rem; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+
+  .meta {
+    margin-top: auto; padding-top: 10px; border-top: 1px solid var(--border);
+    display: flex; align-items: center; gap: 14px; flex-wrap: wrap;
+    font-size: .8rem; color: var(--muted);
+  }
+  .meta span, .meta a { display: inline-flex; align-items: center; gap: 4px; }
+  .meta a { color: var(--muted); text-decoration: none; }
+  .meta a:hover { color: var(--accent); }
+  .meta .hot { color: var(--hot); font-weight: 600; }
+  .meta .discuss { margin-left: auto; }
+
+  .skeleton .line { height: 12px; border-radius: 6px; background: var(--surface-2); animation: pulse 1.2s ease-in-out infinite; }
+  @keyframes pulse { 50% { opacity: .5; } }
+
+  .empty {
+    grid-column: 1 / -1; text-align: center; padding: 56px 16px;
+    background: var(--surface); border: 1px dashed var(--border); border-radius: 14px; color: var(--muted);
+  }
+  .empty strong { display: block; color: var(--text); font-size: 1.05rem; margin-bottom: 6px; }
+  .empty .btn { margin-top: 14px; }
+
+  .more { display: flex; justify-content: center; margin-top: 24px; }
+
+  footer { border-top: 1px solid var(--border); padding: 20px 0 32px; color: var(--muted); font-size: .8rem; }
+  footer a { color: inherit; }
+
+  @media (max-width: 700px) {
+    .bar { flex-wrap: wrap; }
+    .search { order: 3; width: 100%; }
+    .card.featured { grid-column: auto; }
+    .card.featured h2 { font-size: 1.1rem; }
+    .grid { grid-template-columns: 1fr; }
+    .btn .label { display: none; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation: none !important; transition: none !important; }
+  }
+</style>
 </head>
 <body>
-    <div class="container">
-        <div class="avatar">🐍</div>
-        
-        <h1>Hello World!</h1>
-        
-        <p>Welcome to <strong>Code 7</strong></p>
-        
-        <p>This is a demonstration repository for development tasks.</p>
-        
-        <div class="subtitle">
-            <p>Powered by OpenClaw | Research 7 | Code 7</p>
-            
-            <div class="badges">
-                <span class="badge">🐍 Python</span>
-                <span class="badge">🌐 JavaScript</span>
-                <span class="badge">💻 Development</span>
-                <span class="badge">🚀 AI-Powered</span>
-                <span class="badge">⚡ Automated</span>
-            </div>
+<header>
+  <div class="wrap">
+    <div class="bar">
+      <div class="brand">
+        <div class="logo" aria-hidden="true">
+          <svg width="18" height="18" viewBox="0 0 32 32"><path d="M9 11h14M9 16h14M9 21h9" stroke="white" stroke-width="3" stroke-linecap="round"/></svg>
         </div>
-        
-        <p style="margin-top: 30px; font-size: 16px; opacity: 0.7;">
-            <small>This page is hosted on GitHub Pages</small>
-        </p>
+        <div>Tech Updates <small>· Code 7</small></div>
+      </div>
+      <div class="spacer"></div>
+      <label class="search">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+        <input id="q" type="search" placeholder="Search tech news…" aria-label="Search tech news" autocomplete="off">
+      </label>
+      <button class="btn" id="refresh" type="button" title="Refresh">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 12a9 9 0 1 1-2.6-6.4"/><path d="M21 4v5h-5"/></svg>
+        <span class="label">Refresh</span>
+      </button>
     </div>
+    <div class="controls">
+      <div class="tabs" role="tablist" aria-label="Feed">
+        <button class="tab" role="tab" data-feed="top" aria-selected="true">Top</button>
+        <button class="tab" role="tab" data-feed="new" aria-selected="false">Latest</button>
+        <button class="tab" role="tab" data-feed="week" aria-selected="false">This week</button>
+      </div>
+      <div class="chips" id="chips" aria-label="Topics"></div>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+  <p class="status" id="status" aria-live="polite"></p>
+  <div class="grid" id="grid"></div>
+  <div class="more"><button class="btn" id="more" type="button" hidden>Load more</button></div>
+</main>
+
+<footer>
+  <div class="wrap">
+    Headlines from <a href="https://news.ycombinator.com/" rel="noopener">Hacker News</a> via the
+    <a href="https://hn.algolia.com/api" rel="noopener">Algolia HN API</a>, fetched live in your browser.
+  </div>
+</footer>
+
+<script>
+(() => {
+  const API = "https://hn.algolia.com/api/v1/";
+  const PAGE_SIZE = 30;
+  const TOPICS = [
+    { id: "", label: "All" },
+    { id: "AI", label: "AI", q: "AI", match: /\b(ai|llm|gpt|openai|anthropic|claude|gemini|model|neural|machine learning)\b/i },
+    { id: "Security", label: "Security", q: "security", match: /\b(security|vulnerab|breach|hack|exploit|cve|malware|ransomware|privacy)\b/i },
+    { id: "Programming", label: "Programming", q: "programming", match: /\b(rust|python|javascript|typescript|golang|go |compiler|programming|code|developer|api|framework)\b/i },
+    { id: "Hardware", label: "Hardware", q: "chip", match: /\b(chip|cpu|gpu|nvidia|amd|intel|arm|apple silicon|semiconductor|hardware)\b/i },
+    { id: "Space", label: "Space", q: "space", match: /\b(nasa|spacex|rocket|satellite|orbit|space|mars|moon)\b/i },
+    { id: "Startups", label: "Startups", q: "startup", match: /\b(startup|funding|raises|vc|acquire|acquisition|ipo|series [a-d])\b/i },
+  ];
+
+  const $ = (id) => document.getElementById(id);
+  const grid = $("grid"), status = $("status"), moreBtn = $("more"), refreshBtn = $("refresh"), qInput = $("q");
+
+  const store = {
+    get(k) { try { return JSON.parse(localStorage.getItem(k)); } catch { return null; } },
+    set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch {} },
+  };
+
+  const state = { feed: store.get("tu.feed") || "top", topic: "", query: "", page: 0, nbPages: 1, items: [], loading: false, reqId: 0 };
+
+  // ---- UI setup
+  const chips = $("chips");
+  TOPICS.forEach(t => {
+    const b = document.createElement("button");
+    b.className = "chip"; b.type = "button"; b.textContent = t.label; b.dataset.topic = t.id;
+    b.setAttribute("aria-pressed", String(t.id === state.topic));
+    b.onclick = () => { state.topic = t.id; syncChips(); load(); };
+    chips.appendChild(b);
+  });
+  const syncChips = () => chips.querySelectorAll(".chip").forEach(c => c.setAttribute("aria-pressed", String(c.dataset.topic === state.topic)));
+  const syncTabs = () => document.querySelectorAll(".tab").forEach(t => t.setAttribute("aria-selected", String(t.dataset.feed === state.feed)));
+  document.querySelectorAll(".tab").forEach(t => t.onclick = () => { state.feed = t.dataset.feed; store.set("tu.feed", state.feed); syncTabs(); load(); });
+  syncTabs();
+
+  let debounce;
+  qInput.addEventListener("input", () => { clearTimeout(debounce); debounce = setTimeout(() => { state.query = qInput.value.trim(); load(); }, 350); });
+  refreshBtn.onclick = () => load();
+  moreBtn.onclick = () => load(true);
+
+  // ---- Data
+  function buildUrl(page) {
+    const topic = TOPICS.find(t => t.id === state.topic);
+    const query = [state.query, topic && topic.q].filter(Boolean).join(" ");
+    const p = new URLSearchParams({ hitsPerPage: PAGE_SIZE, page });
+    const week = Math.floor(Date.now() / 1000) - 7 * 86400;
+    let endpoint = "search";
+    if (state.feed === "top" && !query) {
+      p.set("tags", "front_page");
+    } else if (state.feed === "new") {
+      endpoint = "search_by_date";
+      p.set("tags", "story");
+      p.set("numericFilters", "points>5");
+    } else {
+      // "This week", or Top with a search/topic: popular stories from the last 7 days
+      p.set("tags", "story");
+      p.set("numericFilters", `created_at_i>${week},points>${query ? 10 : 50}`);
+    }
+    if (query) p.set("query", query);
+    return `${API}${endpoint}?${p}`;
+  }
+
+  async function load(append = false) {
+    const reqId = ++state.reqId;
+    const page = append ? state.page + 1 : 0;
+    state.loading = true;
+    refreshBtn.classList.add("spin");
+    if (!append) { renderSkeletons(); status.textContent = "Loading latest updates…"; }
+    moreBtn.disabled = true;
+
+    try {
+      const res = await fetch(buildUrl(page));
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      const data = await res.json();
+      if (reqId !== state.reqId) return;
+      let hits = (data.hits || []).filter(h => h.title);
+      if (state.feed === "week" || (state.feed === "top" && (state.query || state.topic))) {
+        hits.sort((a, b) => (b.points || 0) - (a.points || 0));
+      }
+      state.items = append ? dedupe(state.items.concat(hits)) : hits;
+      state.page = data.page || 0;
+      state.nbPages = data.nbPages || 1;
+      if (!append && !state.query && !state.topic) store.set(`tu.cache.${state.feed}`, { at: Date.now(), items: hits });
+      render();
+      status.textContent = `${state.items.length} stories · updated ${new Date().toLocaleTimeString([], { hour: "numeric", minute: "2-digit" })}`;
+    } catch (err) {
+      if (reqId !== state.reqId) return;
+      const cached = !append && !state.query && !state.topic && store.get(`tu.cache.${state.feed}`);
+      if (cached && cached.items && cached.items.length) {
+        state.items = cached.items; state.nbPages = 1;
+        render();
+        status.textContent = `Offline: showing saved stories from ${timeAgo(cached.at / 1000)}.`;
+      } else if (!append) {
+        renderError();
+        status.textContent = "";
+      } else {
+        status.textContent = "Couldn't load more stories. Try again.";
+      }
+    } finally {
+      if (reqId === state.reqId) {
+        state.loading = false;
+        refreshBtn.classList.remove("spin");
+        moreBtn.disabled = false;
+      }
+    }
+  }
+
+  const dedupe = (arr) => { const seen = new Set(); return arr.filter(h => !seen.has(h.objectID) && seen.add(h.objectID)); };
+
+  // ---- Rendering
+  function el(tag, attrs = {}, ...kids) {
+    const n = document.createElement(tag);
+    for (const [k, v] of Object.entries(attrs)) {
+      if (k === "class") n.className = v; else if (k === "text") n.textContent = v; else n.setAttribute(k, v);
+    }
+    kids.flat().forEach(k => k && n.append(k));
+    return n;
+  }
+
+  function domainOf(url) { try { return new URL(url).hostname.replace(/^www\./, ""); } catch { return ""; } }
+  function safeUrl(url) { try { const u = new URL(url); return /^https?:$/.test(u.protocol) ? u.href : null; } catch { return null; } }
+
+  function timeAgo(sec) {
+    const s = Math.max(1, Math.floor(Date.now() / 1000 - sec));
+    const units = [["y", 31536000], ["mo", 2592000], ["d", 86400], ["h", 3600], ["m", 60]];
+    for (const [u, n] of units) if (s >= n) return `${Math.floor(s / n)}${u} ago`;
+    return "just now";
+  }
+
+  function topicOf(title) {
+    const t = TOPICS.find(t => t.match && t.match.test(title));
+    return t ? t.label : "";
+  }
+
+  function stripHtml(html) {
+    const d = new DOMParser().parseFromString(html || "", "text/html");
+    return (d.body.textContent || "").trim();
+  }
+
+  const icon = (path) => {
+    const s = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+    s.setAttribute("width", "14"); s.setAttribute("height", "14"); s.setAttribute("viewBox", "0 0 24 24");
+    s.setAttribute("fill", "none"); s.setAttribute("stroke", "currentColor"); s.setAttribute("stroke-width", "2");
+    s.setAttribute("aria-hidden", "true"); s.innerHTML = path; return s;
+  };
+  const ICONS = {
+    up: '<path d="m18 15-6-6-6 6"/>',
+    chat: '<path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12Z"/>',
+    clock: '<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',
+  };
+
+  function card(h, featured) {
+    const hnUrl = `https://news.ycombinator.com/item?id=${encodeURIComponent(h.objectID)}`;
+    const url = safeUrl(h.url) || hnUrl;
+    const domain = domainOf(h.url) || "news.ycombinator.com";
+    const topic = topicOf(h.title);
+    const excerpt = stripHtml(h.story_text);
+    const points = h.points || 0;
+
+    const fav = el("img", { class: "favicon", alt: "", loading: "lazy", src: `https://icons.duckduckgo.com/ip3/${domain}.ico` });
+    fav.onerror = () => fav.remove();
+
+    return el("article", { class: "card" + (featured ? " featured" : "") },
+      el("div", { class: "meta-top" }, fav, el("span", { class: "domain", text: domain }), topic && el("span", { class: "tag", text: topic })),
+      el("h2", {}, el("a", { href: url, target: "_blank", rel: "noopener noreferrer", text: h.title })),
+      excerpt && el("p", { class: "excerpt", text: excerpt }),
+      el("div", { class: "meta" },
+        el("span", { class: points >= 300 ? "hot" : "", title: "Points" }, icon(ICONS.up), String(points)),
+        el("span", { title: new Date(h.created_at_i * 1000).toLocaleString() }, icon(ICONS.clock), timeAgo(h.created_at_i)),
+        el("a", { class: "discuss", href: hnUrl, target: "_blank", rel: "noopener noreferrer", title: "Discussion on Hacker News" },
+          icon(ICONS.chat), `${h.num_comments || 0} comments`)
+      )
+    );
+  }
+
+  function render() {
+    grid.replaceChildren();
+    if (!state.items.length) {
+      grid.append(el("div", { class: "empty" },
+        el("strong", { text: "No stories found" }),
+        el("span", { text: "Try a different search or topic." })));
+      moreBtn.hidden = true;
+      return;
+    }
+    const showFeatured = !state.query && window.matchMedia("(min-width: 701px)").matches;
+    state.items.forEach((h, i) => grid.append(card(h, showFeatured && i === 0)));
+    moreBtn.hidden = state.page + 1 >= state.nbPages;
+  }
+
+  function renderSkeletons() {
+    grid.replaceChildren();
+    moreBtn.hidden = true;
+    for (let i = 0; i < 9; i++) {
+      grid.append(el("div", { class: "card skeleton", "aria-hidden": "true" },
+        el("div", { class: "line", style: "width:40%" }),
+        el("div", { class: "line", style: "width:95%;height:16px" }),
+        el("div", { class: "line", style: "width:70%;height:16px" }),
+        el("div", { class: "line", style: "width:55%;margin-top:18px" })));
+    }
+  }
+
+  function renderError() {
+    const retry = el("button", { class: "btn", type: "button", text: "Try again" });
+    retry.onclick = () => load();
+    grid.replaceChildren(el("div", { class: "empty" },
+      el("strong", { text: "Couldn't load the news" }),
+      el("span", { text: "The news service didn't respond. Check your connection and try again." }),
+      el("br"), retry));
+    moreBtn.hidden = true;
+  }
+
+  // Refresh when the tab comes back into view after 10+ minutes
+  let lastLoad = Date.now();
+  document.addEventListener("visibilitychange", () => {
+    if (document.visibilityState === "visible" && Date.now() - lastLoad > 600000 && !state.query) { lastLoad = Date.now(); load(); }
+  });
+
+  load();
+})();
+</script>
 </body>
 </html>
